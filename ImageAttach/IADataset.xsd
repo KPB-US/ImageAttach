@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="IADataset" targetNamespace="http://tempuri.org/IADataset.xsd" xmlns:mstns="http://tempuri.org/IADataset.xsd" xmlns="http://tempuri.org/IADataset.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="IADataset" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="IADataset" msprop:Generator_UserDSName="IADataset">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="LogSheet" msprop:Generator_TableClassName="LogSheetDataTable" msprop:Generator_TableVarName="tableLogSheet" msprop:Generator_TablePropName="LogSheet" msprop:Generator_RowDeletingName="LogSheetRowDeleting" msprop:Generator_UserTableName="LogSheet" msprop:Generator_RowChangingName="LogSheetRowChanging" msprop:Generator_RowEvHandlerName="LogSheetRowChangeEventHandler" msprop:Generator_RowDeletedName="LogSheetRowDeleted" msprop:Generator_RowEvArgName="LogSheetRowChangeEvent" msprop:Generator_RowChangedName="LogSheetRowChanged" msprop:Generator_RowClassName="LogSheetRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ParcelId" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="ParcelId" msprop:Generator_ColumnVarNameInTable="columnParcelId" msprop:Generator_ColumnPropNameInTable="ParcelIdColumn" msprop:Generator_UserColumnName="ParcelId" type="xs:string" default="" />
+              <xs:element name="Card" msprop:Generator_ColumnVarNameInTable="columnCard" msprop:Generator_ColumnPropNameInRow="Card" msprop:Generator_ColumnPropNameInTable="CardColumn" msprop:Generator_UserColumnName="Card" type="xs:string" minOccurs="0" />
+              <xs:element name="SeqNo" msprop:nullValue="0" msprop:Generator_ColumnPropNameInRow="SeqNo" msprop:Generator_ColumnVarNameInTable="columnSeqNo" msprop:Generator_ColumnPropNameInTable="SeqNoColumn" msprop:Generator_UserColumnName="SeqNo" type="xs:int" default="0" />
+              <xs:element name="PropertyAddress" msprop:Generator_ColumnVarNameInTable="columnPropertyAddress" msprop:Generator_ColumnPropNameInRow="PropertyAddress" msprop:Generator_ColumnPropNameInTable="PropertyAddressColumn" msprop:Generator_UserColumnName="PropertyAddress" type="xs:string" minOccurs="0" />
+              <xs:element name="Filename" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="Filename" msprop:Generator_ColumnVarNameInTable="columnFilename" msprop:Generator_ColumnPropNameInTable="FilenameColumn" msprop:Generator_UserColumnName="Filename" type="xs:string" default="" />
+              <xs:element name="OriginalFilename" msprop:Generator_ColumnVarNameInTable="columnOriginalFilename" msprop:Generator_ColumnPropNameInRow="OriginalFilename" msprop:Generator_ColumnPropNameInTable="OriginalFilenameColumn" msprop:Generator_UserColumnName="OriginalFilename" type="xs:string" minOccurs="0" />
+              <xs:element name="Status" msprop:Generator_ColumnVarNameInTable="columnStatus" msprop:Generator_ColumnPropNameInRow="Status" msprop:Generator_ColumnPropNameInTable="StatusColumn" msprop:Generator_UserColumnName="Status" type="xs:string" minOccurs="0" />
+              <xs:element name="Lrsn" msprop:nullValue="0" msprop:Generator_ColumnPropNameInRow="Lrsn" msprop:Generator_ColumnVarNameInTable="columnLrsn" msprop:Generator_ColumnPropNameInTable="LrsnColumn" msprop:Generator_UserColumnName="Lrsn" type="xs:int" default="0" />
+              <xs:element name="Area" msprop:Generator_ColumnVarNameInTable="columnArea" msprop:Generator_ColumnPropNameInRow="Area" msprop:Generator_ColumnPropNameInTable="AreaColumn" msprop:Generator_UserColumnName="Area" type="xs:string" minOccurs="0" />
+              <xs:element name="Date" msprop:Generator_ColumnVarNameInTable="columnDate" msprop:Generator_ColumnPropNameInRow="_Date" msprop:Generator_ColumnPropNameInTable="DateColumn" msprop:Generator_UserColumnName="Date" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Description" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="Description" msprop:Generator_ColumnVarNameInTable="columnDescription" msprop:Generator_ColumnPropNameInTable="DescriptionColumn" msprop:Generator_UserColumnName="Description" type="xs:string" minOccurs="0" />
+              <xs:element name="Source" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="Source" msprop:Generator_ColumnVarNameInTable="columnSource" msprop:Generator_ColumnPropNameInTable="SourceColumn" msprop:Generator_UserColumnName="Source" type="xs:string" default="" />
+              <xs:element name="Action" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="Action" msprop:Generator_ColumnVarNameInTable="columnAction" msprop:Generator_ColumnPropNameInTable="ActionColumn" msprop:Generator_UserColumnName="Action" type="xs:string" default="" />
+              <xs:element name="Id" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnPropNameInTable="IdColumn" msprop:Generator_UserColumnName="Id" type="xs:int" />
+              <xs:element name="Copied" msprop:nullValue="False" msprop:Generator_ColumnPropNameInRow="Copied" msprop:Generator_ColumnVarNameInTable="columnCopied" msprop:Generator_ColumnPropNameInTable="CopiedColumn" msprop:Generator_UserColumnName="Copied" type="xs:boolean" default="false" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:LogSheet" />
+      <xs:field xpath="mstns:Id" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>
