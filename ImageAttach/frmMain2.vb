@@ -691,8 +691,8 @@ Public Class frmMain2
     Private Sub AdvBandedGridView1_CustomUnboundColumnData(ByVal sender As System.Object, ByVal e As DevExpress.XtraGrid.Views.Base.CustomColumnDataEventArgs) Handles AdvBandedGridView1.CustomUnboundColumnData
         If e.Column.FieldName = "colImage" AndAlso e.IsGetData Then
             Dim view As XtraGrid.Views.Grid.GridView = TryCast(sender, XtraGrid.Views.Grid.GridView)
-            If view.GetRowCellValue(e.RowHandle, "OriginalFilename") IsNot Nothing AndAlso Not IsDBNull(view.GetRowCellValue(e.RowHandle, "OriginalFilename")) Then
-                Dim Filename As String = CStr(view.GetRowCellValue(e.RowHandle, "OriginalFilename"))
+            If e.Row IsNot Nothing AndAlso Not CType(e.Row, IADataset.LogSheetRow).IsOriginalFilenameNull Then
+                Dim Filename As String = CType(e.Row, IADataset.LogSheetRow).OriginalFilename
                 Dim imgShow As Bitmap = Nothing
 
                 ' load and cache thumbnail - scale it here so we cache smaller images not full sized ones
