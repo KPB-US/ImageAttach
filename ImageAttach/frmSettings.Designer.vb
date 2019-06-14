@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmSettings
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class frmSettings
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.btnOK = New System.Windows.Forms.Button()
@@ -37,7 +37,8 @@ Partial Class frmSettings
         Me.txtWidth = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.chkProValVersion9 = New System.Windows.Forms.CheckBox()
+        Me.lblProValVersion = New System.Windows.Forms.Label()
+        Me.txtProValVersion = New System.Windows.Forms.TextBox()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
@@ -95,7 +96,8 @@ Partial Class frmSettings
         '
         Me.GroupBox2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox2.Controls.Add(Me.chkProValVersion9)
+        Me.GroupBox2.Controls.Add(Me.txtProValVersion)
+        Me.GroupBox2.Controls.Add(Me.lblProValVersion)
         Me.GroupBox2.Controls.Add(Me.chkOverrideAreaWith)
         Me.GroupBox2.Controls.Add(Me.chkAllowFileOverwrite)
         Me.GroupBox2.Controls.Add(Me.chkAttachImages)
@@ -119,7 +121,7 @@ Partial Class frmSettings
         Me.chkOverrideAreaWith.Size = New System.Drawing.Size(195, 17)
         Me.chkOverrideAreaWith.TabIndex = 7
         Me.chkOverrideAreaWith.Text = "Override Area with YYMM of picture"
-        Me.ToolTip1.SetToolTip(Me.chkOverrideAreaWith, "If checked, this will write out the  year and month of the picture instead of the" & _
+        Me.ToolTip1.SetToolTip(Me.chkOverrideAreaWith, "If checked, this will write out the  year and month of the picture instead of the" &
         " area of the parcel")
         Me.chkOverrideAreaWith.UseVisualStyleBackColor = True
         '
@@ -131,7 +133,7 @@ Partial Class frmSettings
         Me.chkAllowFileOverwrite.Size = New System.Drawing.Size(172, 17)
         Me.chkAllowFileOverwrite.TabIndex = 6
         Me.chkAllowFileOverwrite.Text = "Allow Images to be Overwritten"
-        Me.ToolTip1.SetToolTip(Me.chkAllowFileOverwrite, "If checked, this will not ensure unique filenames and will not warn you when exis" & _
+        Me.ToolTip1.SetToolTip(Me.chkAllowFileOverwrite, "If checked, this will not ensure unique filenames and will not warn you when exis" &
         "ting image files are about to be overwritten")
         Me.chkAllowFileOverwrite.UseVisualStyleBackColor = True
         '
@@ -143,7 +145,7 @@ Partial Class frmSettings
         Me.chkAttachImages.Size = New System.Drawing.Size(204, 17)
         Me.chkAttachImages.TabIndex = 5
         Me.chkAttachImages.Text = "Attach (link) Image to Parcel in ProVal"
-        Me.ToolTip1.SetToolTip(Me.chkAttachImages, "If this is unchecked, images will only be moved to their ProVal folders, and you " & _
+        Me.ToolTip1.SetToolTip(Me.chkAttachImages, "If this is unchecked, images will only be moved to their ProVal folders, and you " &
         "will still need to run the AddImage.exe from ProVal under Utilities menu.")
         Me.chkAttachImages.UseVisualStyleBackColor = True
         '
@@ -190,16 +192,21 @@ Partial Class frmSettings
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Resize Images:"
         '
-        'chkProValVersion9
+        'lblProValVersion
         '
-        Me.chkProValVersion9.AutoSize = True
-        Me.chkProValVersion9.Location = New System.Drawing.Point(9, 128)
-        Me.chkProValVersion9.Name = "chkProValVersion9"
-        Me.chkProValVersion9.Size = New System.Drawing.Size(142, 17)
-        Me.chkProValVersion9.TabIndex = 8
-        Me.chkProValVersion9.Text = "Using ProVal Version 9.x"
-        Me.ToolTip1.SetToolTip(Me.chkProValVersion9, "ProVal 9 has column name changes in the parcel_base table.")
-        Me.chkProValVersion9.UseVisualStyleBackColor = True
+        Me.lblProValVersion.AutoSize = True
+        Me.lblProValVersion.Location = New System.Drawing.Point(9, 129)
+        Me.lblProValVersion.Name = "lblProValVersion"
+        Me.lblProValVersion.Size = New System.Drawing.Size(123, 13)
+        Me.lblProValVersion.TabIndex = 8
+        Me.lblProValVersion.Text = "ProVal Version (ie: 9.1.5)"
+        '
+        'txtProValVersion
+        '
+        Me.txtProValVersion.Location = New System.Drawing.Point(138, 126)
+        Me.txtProValVersion.Name = "txtProValVersion"
+        Me.txtProValVersion.Size = New System.Drawing.Size(100, 20)
+        Me.txtProValVersion.TabIndex = 9
         '
         'frmSettings
         '
@@ -238,5 +245,6 @@ Partial Class frmSettings
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents chkAllowFileOverwrite As System.Windows.Forms.CheckBox
     Friend WithEvents chkOverrideAreaWith As System.Windows.Forms.CheckBox
-    Friend WithEvents chkProValVersion9 As System.Windows.Forms.CheckBox
+    Friend WithEvents txtProValVersion As TextBox
+    Friend WithEvents lblProValVersion As Label
 End Class

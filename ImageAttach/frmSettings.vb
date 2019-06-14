@@ -49,10 +49,10 @@
         txtHeight.Text = My.Settings.ResizeHeight
         chkAttachImages.Checked = My.Settings.AttachToProVal
         chkAllowFileOverwrite.Checked = My.Settings.AllowFileOverwrite
-        chkProValVersion9.Checked = My.Settings.ProValVersion9
         _AttachToProValSettingChanged = False
         ' 01/19/12 mjf add this new setting for boone county since they save their photos to L:\Images\YYMM\PIN.jpg
         chkOverrideAreaWith.Checked = (My.Settings.OverrideAreaWith = "YYMM")
+        txtProValVersion.Text = My.Settings.ProValVersion
     End Sub
 
     ''' <summary>
@@ -75,9 +75,9 @@
             My.Settings.ResizeHeight = Integer.Parse(txtHeight.Text)
             My.Settings.AttachToProVal = chkAttachImages.Checked
             My.Settings.AllowFileOverwrite = chkAllowFileOverwrite.Checked
-            My.Settings.ProValVersion9 = chkProValVersion9.Checked
             ' 01/19/12 mjf add this new setting for boone county since they save their photos to L:\Images\YYMM\PIN.jpg
             My.Settings.OverrideAreaWith = IIf(chkOverrideAreaWith.Checked, "YYMM", "")
+            My.Settings.ProValVersion = txtProValVersion.Text.Trim
             My.Settings.Save()
             Me.DialogResult = DialogResult.OK
             Me.Close()
@@ -85,4 +85,5 @@
             MessageBox.Show("Some of the settings are not valid.  Please check them.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End Try
     End Sub
+
 End Class

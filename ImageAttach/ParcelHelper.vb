@@ -14,43 +14,24 @@ Public Class ParcelHelper
     ''' set up commands
     ''' </summary>
     ''' <param name="DbConnString"></param>
+    ''' <param name="Version">Version of ProVal converted to an integer (see code in frmMain2)</param>
     ''' <remarks>
     ''' 07/05/11 mjf changed to make case insensitive queries by using UPPER()
     ''' </remarks>
-    Public Sub New(ByVal DbConnString As String)
+    Public Sub New(ByVal DbConnString As String, Version As Integer)
         Me.dbConnString = DbConnString
         dbCon = New OdbcConnection(DbConnString)
         dbCon.Open()
 
-        ' warning: GetParCcelInfo method below references these columns by index number instead of name
-        ' 7/25/14 mjf ProVal version 9 uses PropertyStreet instead of prop_street
-        If My.Settings.ProValVersion9 Then
-            cmdGetInfo = New OdbcCommand("select pb.lrsn, ii.image_seq_number, ii.image_description, ii.image_path, ii.image_date, ii.image_text2, pb.township_number as area, pb.PropertyStreet as address from parcel_base pb left outer join image_index ii on ii.lrsn = pb.lrsn " & _
-            " where pb.parcel_id = ?", dbCon)
-        Else
-            cmdGetInfo = New OdbcCommand("select pb.lrsn, ii.image_seq_number, ii.image_description, ii.image_path, ii.image_date, ii.image_text2, pb.township_number as area, pb.prop_street as address from parcel_base pb left outer join image_index ii on ii.lrsn = pb.lrsn " & _
-            " where pb.parcel_id = ?", dbCon)
-        End If
-        cmdGetInfo.Parameters.Add(New OdbcParameter("@parcelid", Odbc.OdbcType.VarChar))
-
-
         cmdDelete = New OdbcCommand("delete from image_index where lrsn = ? and image_seq_number = ? and upper(image_path) = upper(?)", dbCon)
-        cmdDelete.Parameters.Add(New OdbcParameter("@lrsn", Odbc.OdbcType.Int))
-        cmdDelete.Parameters.Add(New OdbcParameter("@image_seq_number", Odbc.OdbcType.Int))
-        cmdDelete.Parameters.Add(New OdbcParameter("@image_path", Odbc.OdbcType.VarChar))
 
         cmdUpdate = New OdbcCommand("update image_index set image_seq_number = ?, image_description = ? where lrsn = ? and image_seq_number = ? and upper(image_path) = upper(?)", dbCon)
-        cmdUpdate.Parameters.Add(New OdbcParameter("@image_seq_number", Odbc.OdbcType.Int))
-        cmdUpdate.Parameters.Add(New OdbcParameter("@description", Odbc.OdbcType.VarChar))
-        cmdUpdate.Parameters.Add(New OdbcParameter("@lrsn", Odbc.OdbcType.Int))
-        cmdUpdate.Parameters.Add(New OdbcParameter("@old_image_seq_number", Odbc.OdbcType.Int))
-        cmdUpdate.Parameters.Add(New OdbcParameter("@image_path", Odbc.OdbcType.VarChar))
 
         cmdGetExtension = New OdbcCommand("select extension from extensions where lrsn = ? and status = 'A' and extension = ?", dbCon)
         cmdGetExtension.Parameters.Add(New OdbcParameter("@lrsn", Odbc.OdbcType.Int))
         cmdGetExtension.Parameters.Add(New OdbcParameter("@extension", Odbc.OdbcType.VarChar))
 
-        cmdSaveImage = New OdbcCommand("insert into image_index (lrsn, image_seq_number, image_description, image_path, image_date, detail_image, history, image_int1, image_int2, image_int3, image_flag1, image_flag2, image_flag3, image_text1, image_text2) " & _
+        cmdSaveImage = New OdbcCommand("insert into image_index (lrsn, image_seq_number, image_description, image_path, image_date, detail_image, history, image_int1, image_int2, image_int3, image_flag1, image_flag2, image_flag3, image_text1, image_text2) " &
                                        "values (?, ?, ?, ?, ?, 'N', 'N', 0, 0, 0, '', '', '', '', ?)", dbCon)
         cmdSaveImage.Parameters.Add(New OdbcParameter("@lrsn", Odbc.OdbcType.Int))
         cmdSaveImage.Parameters.Add(New OdbcParameter("@image_seq_number", Odbc.OdbcType.Int))
@@ -58,6 +39,54 @@ Public Class ParcelHelper
         cmdSaveImage.Parameters.Add(New OdbcParameter("@image_path", Odbc.OdbcType.VarChar))
         cmdSaveImage.Parameters.Add(New OdbcParameter("@image_date", Odbc.OdbcType.DateTime))
         cmdSaveImage.Parameters.Add(New OdbcParameter("@image_text2", Odbc.OdbcType.VarChar))
+
+
+        ' warning: GetParcelInfo method below references these columns by index number instead of name
+        ' 7/25/14 mjf ProVal version 9 uses PropertyStreet instead of prop_street
+        ' 6/14/19 mjf ProVal version 9.1.5 image_index has different columns and maintains a history
+        If Version = 0 Or Version >= 90105 Then
+            ' default to 9.1.5 or higher
+            cmdGetInfo = New OdbcCommand("select pb.lrsn, ii.image_seq_number, ii.image_description, ii.image_path, ii.image_date, ii.extension as image_text2, 
+                pb.township_number as area, pb.PropertyStreet as address from parcel_base pb left outer join image_index ii on ii.lrsn = pb.lrsn and ii.status = 'A'
+                where pb.parcel_id = ?", dbCon)
+
+            cmdDelete = New OdbcCommand("update image_index set status = 'H', eff_year = convert(varchar, getdate(), 112), last_update = getdate() where lrsn = ? and image_seq_number = ? and upper(image_path) = upper(?) and status = 'A'", dbCon)
+            cmdUpdate = New OdbcCommand("update image_index set image_seq_number = ?, image_description = ? where lrsn = ? and image_seq_number = ? and upper(image_path) = upper(?) and status = 'A'", dbCon)
+
+            cmdSaveImage = New OdbcCommand("insert into image_index (lrsn, status, eff_year, last_update, image_seq_number, image_description, image_path, image_date, extension) " &
+                                       "values (?, 'A', 0, null, ?, ?, ?, ?, ?)", dbCon)
+            cmdSaveImage.Parameters.Add(New OdbcParameter("@lrsn", Odbc.OdbcType.Int))
+            cmdSaveImage.Parameters.Add(New OdbcParameter("@image_seq_number", Odbc.OdbcType.Int))
+            cmdSaveImage.Parameters.Add(New OdbcParameter("@description", Odbc.OdbcType.VarChar))
+            cmdSaveImage.Parameters.Add(New OdbcParameter("@image_path", Odbc.OdbcType.VarChar))
+            cmdSaveImage.Parameters.Add(New OdbcParameter("@image_date", Odbc.OdbcType.DateTime))
+            cmdSaveImage.Parameters.Add(New OdbcParameter("@image_text2", Odbc.OdbcType.VarChar)) ' extension
+        ElseIf Version >= 90100 Then
+            ' 9.1 thru 9.1.4
+            cmdGetInfo = New OdbcCommand("select pb.lrsn, ii.image_seq_number, ii.image_description, ii.image_path, ii.image_date, ii.image_text2, 
+                pb.township_number as area, pb.PropertyStreet as address from parcel_base pb left outer join image_index ii on ii.lrsn = pb.lrsn 
+                where pb.parcel_id = ?", dbCon)
+        ElseIf Version >= 90000 Then
+            ' assume 9.0
+            cmdGetInfo = New OdbcCommand("select pb.lrsn, ii.image_seq_number, ii.image_description, ii.image_path, ii.image_date, ii.image_text2, pb.township_number as area, pb.PropertyStreet as address from parcel_base pb left outer join image_index ii on ii.lrsn = pb.lrsn " &
+            " where pb.parcel_id = ?", dbCon)
+        Else
+            ' fallback to 7.11
+            cmdGetInfo = New OdbcCommand("select pb.lrsn, ii.image_seq_number, ii.image_description, ii.image_path, ii.image_date, ii.image_text2, pb.township_number as area, pb.prop_street as address from parcel_base pb left outer join image_index ii on ii.lrsn = pb.lrsn " &
+            " where pb.parcel_id = ?", dbCon)
+        End If
+        cmdGetInfo.Parameters.Add(New OdbcParameter("@parcelid", Odbc.OdbcType.VarChar))
+
+        cmdDelete.Parameters.Add(New OdbcParameter("@lrsn", Odbc.OdbcType.Int))
+        cmdDelete.Parameters.Add(New OdbcParameter("@image_seq_number", Odbc.OdbcType.Int))
+        cmdDelete.Parameters.Add(New OdbcParameter("@image_path", Odbc.OdbcType.VarChar))
+
+        cmdUpdate.Parameters.Add(New OdbcParameter("@image_seq_number", Odbc.OdbcType.Int))
+        cmdUpdate.Parameters.Add(New OdbcParameter("@description", Odbc.OdbcType.VarChar))
+        cmdUpdate.Parameters.Add(New OdbcParameter("@lrsn", Odbc.OdbcType.Int))
+        cmdUpdate.Parameters.Add(New OdbcParameter("@old_image_seq_number", Odbc.OdbcType.Int))
+        cmdUpdate.Parameters.Add(New OdbcParameter("@image_path", Odbc.OdbcType.VarChar))
+
     End Sub
 
     ''' <summary>

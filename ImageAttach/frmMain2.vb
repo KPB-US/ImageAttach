@@ -55,6 +55,7 @@ Public Class frmMain2
     Private _ImageHelper As ImageHelper
     Private _ParcelHelper As ParcelHelper
     Private _OverrideAreaWith As String = String.Empty
+    Private _ProValVersion As Integer = 0
 
     ''' <summary>
     ''' keep track of items that need to be resequenced
@@ -120,6 +121,19 @@ Public Class frmMain2
         UpdateAttachButton()
         Dim VersionInfo() As String = Application.ProductVersion.Split(CChar("."))
         bsiVersion.Caption = "Ver " & VersionInfo(0) & "." & VersionInfo(1)
+
+        If My.Settings.ProValVersion IsNot Nothing AndAlso My.Settings.ProValVersion.Trim <> "" Then
+            ' xx.yy.zz = xx * 10000 + yy * 100 + zz  ' asssumes semantic versioning
+            Dim k As Integer = 4
+            For Each j As String In My.Settings.ProValVersion.Trim.Split(CType(".", Char()))
+                _ProValVersion = CInt(_ProValVersion + CInt(j) * 10 ^ k)
+                k = k - 2
+                If k < 0 Then
+                    ' ignore build version
+                    Exit For
+                End If
+            Next
+        End If
     End Sub
 
     ''' <summary>
@@ -186,7 +200,7 @@ Public Class frmMain2
 
         Try
             ' intialize the Parcel helper
-            _ParcelHelper = New ParcelHelper(_dbConString)
+            _ParcelHelper = New ParcelHelper(_dbConString, _ProValVersion)
         Catch ex As Exception
             MessageBox.Show("Unable to prepare for parcel validation.  [Reason - " & ex.Message & "]", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Application.Exit()
@@ -571,7 +585,7 @@ Public Class frmMain2
             Me.Cursor = Cursors.WaitCursor
 
             Dim OriginalFilename As String = String.Empty
-            Status("deleting images from ProVal...")
+            Status("deleting/moving to history images from ProVal...")
             For Each dr As IADataset.LogSheetRow In IaDataset1.LogSheet.Select("action = 'Delete'")
                 If dr.Source = "table" Then
                     Try
@@ -586,7 +600,10 @@ Public Class frmMain2
                         End If
                         If _ParcelHelper.RemoveFromParcel(dr.Lrsn, CType(dr.Item("SeqNo", DataRowVersion.Original), Integer), OriginalFilename) Then
                             ' remove the image file
-                            System.IO.File.Delete(dr.OriginalFilename)
+                            ' dont delete if ProVal 9.1.5 or higher -- since they get put in 'H' history status
+                            If _ProValVersion < 90105 Then
+                                System.IO.File.Delete(dr.OriginalFilename)
+                            End If
                         Else
                             Throw New Exception("could not delete image_index record - not found")
                         End If
@@ -691,8 +708,12 @@ Public Class frmMain2
     Private Sub AdvBandedGridView1_CustomUnboundColumnData(ByVal sender As System.Object, ByVal e As DevExpress.XtraGrid.Views.Base.CustomColumnDataEventArgs) Handles AdvBandedGridView1.CustomUnboundColumnData
         If e.Column.FieldName = "colImage" AndAlso e.IsGetData Then
             Dim view As XtraGrid.Views.Grid.GridView = TryCast(sender, XtraGrid.Views.Grid.GridView)
-            If e.Row IsNot Nothing AndAlso Not CType(e.Row, IADataset.LogSheetRow).IsOriginalFilenameNull Then
-                Dim Filename As String = CType(e.Row, IADataset.LogSheetRow).OriginalFilename
+            Dim logRow As IADataset.LogSheetRow = Nothing
+            If e.Row IsNot Nothing Then
+                logRow = CType(CType(e.Row, DataRowView).Row, IADataset.LogSheetRow)
+            End If
+            If logRow IsNot Nothing AndAlso Not logRow.IsOriginalFilenameNull Then
+                Dim Filename As String = logRow.OriginalFilename
                 Dim imgShow As Bitmap = Nothing
 
                 ' load and cache thumbnail - scale it here so we cache smaller images not full sized ones

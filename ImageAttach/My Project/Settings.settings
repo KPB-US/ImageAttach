@@ -20,8 +20,8 @@
     <Setting Name="OverrideAreaWith" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="ProValVersion9" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+    <Setting Name="ProValVersion" Type="System.String" Scope="User">
+      <Value Profile="(Default)">9.1.5</Value>
     </Setting>
   </Settings>
 </SettingsFile>
