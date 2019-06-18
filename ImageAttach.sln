@@ -5,6 +5,11 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ImageAttach", "ImageAttach\ImageAttach.vbproj", "{3B535FA0-0668-4026-93B9-5975FEA1C71C}"
 EndProject
+Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "Setup2", "Setup2\Setup2.isproj", "{20098BEA-F436-457E-910A-C8C4F053F599}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3B535FA0-0668-4026-93B9-5975FEA1C71C} = {3B535FA0-0668-4026-93B9-5975FEA1C71C}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|x86 = CD_ROM|x86
@@ -24,6 +29,16 @@ Global
 		{3B535FA0-0668-4026-93B9-5975FEA1C71C}.Release|x86.Build.0 = Release|x86
 		{3B535FA0-0668-4026-93B9-5975FEA1C71C}.SingleImage|x86.ActiveCfg = Release|x86
 		{3B535FA0-0668-4026-93B9-5975FEA1C71C}.SingleImage|x86.Build.0 = Release|x86
+		{20098BEA-F436-457E-910A-C8C4F053F599}.CD_ROM|x86.ActiveCfg = CD_ROM
+		{20098BEA-F436-457E-910A-C8C4F053F599}.CD_ROM|x86.Build.0 = CD_ROM
+		{20098BEA-F436-457E-910A-C8C4F053F599}.Debug|x86.ActiveCfg = DVD-5
+		{20098BEA-F436-457E-910A-C8C4F053F599}.Debug|x86.Build.0 = DVD-5
+		{20098BEA-F436-457E-910A-C8C4F053F599}.DVD-5|x86.ActiveCfg = DVD-5
+		{20098BEA-F436-457E-910A-C8C4F053F599}.DVD-5|x86.Build.0 = DVD-5
+		{20098BEA-F436-457E-910A-C8C4F053F599}.Release|x86.ActiveCfg = SingleImage
+		{20098BEA-F436-457E-910A-C8C4F053F599}.Release|x86.Build.0 = SingleImage
+		{20098BEA-F436-457E-910A-C8C4F053F599}.SingleImage|x86.ActiveCfg = SingleImage
+		{20098BEA-F436-457E-910A-C8C4F053F599}.SingleImage|x86.Build.0 = SingleImage
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
